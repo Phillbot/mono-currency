@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Mono currency",
+    "slug": "Mono-currency",
+    "privacy": "public",
+    "sdkVersion": "35.0.0",
+    "platforms": ["android"],
+    "version": "1.0.2",
+    "android": {
+      "package": "com.yourcompany.yourappname"
+    },
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "description": "Узнать курс валют Монобанка"
+  }
+}
