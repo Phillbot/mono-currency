@@ -9,7 +9,8 @@ import {
   Button,
   RefreshControl,
   TouchableOpacity,
-  Alert
+  Alert,
+  TextInput
 } from "react-native";
 
 import moment from "moment";
@@ -17,7 +18,7 @@ import Constants from "expo-constants";
 import { NetInfo } from "react-native";
 
 import { monoCurrencyFetch } from "../functions/fetches";
-import currencies from "../dictionaries/currencies.json";
+import { searchCurr } from "../functions/search";
 
 export default class Currency extends Component<any, any> {
   constructor(props: any) {
@@ -28,7 +29,8 @@ export default class Currency extends Component<any, any> {
       isLoaded: false,
       result: [],
       refreshing: false,
-      mounted: false
+      mounted: false,
+      filterData: []
     };
   }
 
@@ -89,8 +91,15 @@ export default class Currency extends Component<any, any> {
     );
   };
 
+  search = (e: {}) => {
+    this.setState = this.setState.bind(this);
+    searchCurr(e, this.setState, this.state.result);
+  };
+
   render() {
-    const { error, isLoaded, result } = this.state;
+    const { error, isLoaded, result, filterData } = this.state;
+
+    const currs = filterData.length > 0 ? filterData : result;
 
     if (error) {
       return (
@@ -129,20 +138,23 @@ export default class Currency extends Component<any, any> {
               />
             }
           >
+            <Text style={styles.h1}>Фильтр курсов валют</Text>
+
+            <TextInput
+              style={styles.search}
+              onChangeText={text => this.search(text)}
+            />
+
             <View style={styles.container}>
-              {result.map((item: any, i) => {
-                
-                let { currencyCodeA, currencyCodeB } = item;
-
-                const { rateBuy, rateSell, rateCross, date } = item;
-
-                for (let [key, value] of Object.entries(currencies)) {
-                  if (value === currencyCodeA) {
-                    currencyCodeA = key;
-                  } else if (value === currencyCodeB) {
-                    currencyCodeB = key;
-                  }
-                }
+              {currs.map((item: any, i) => {
+                const {
+                  currencyCodeA,
+                  currencyCodeB,
+                  rateBuy,
+                  rateSell,
+                  rateCross,
+                  date
+                } = item;
 
                 return (
                   <TouchableOpacity
@@ -205,10 +217,21 @@ const styles = StyleSheet.create({
   },
 
   h1: {
-    marginTop: Constants.statusBarHeight + 20,
-    fontSize: 30,
+    marginTop: Constants.statusBarHeight + 10,
+    fontSize: 22,
     textAlign: "center",
-    marginBottom: "11%"
+    marginBottom: "5%"
+  },
+
+  search:{
+    height:40,
+    marginBottom:20,
+    marginLeft:"auto",
+    marginRight:"auto",
+    borderBottomColor:"grey",
+    borderWidth: 1,
+    width:"90%",
+  
   },
 
   container: {
@@ -225,25 +248,26 @@ const styles = StyleSheet.create({
   },
 
   currContainer: {
-    width: "50%",
-    paddingTop: "16%",
-    paddingBottom: "16%",
+    width: "33.3%",
+    paddingTop: "12%",
+    paddingBottom: "12%",
     backgroundColor: "#1f2227",
     borderStyle: "solid",
     borderColor: "#fff",
-    borderWidth: 2
+    borderWidth: 2,
+    borderRadius:25
   },
 
   currinfoMain: {
     textAlign: "center",
-    fontSize: 20,
-    marginBottom: 20,
+    fontSize: 15,
+    marginBottom: 12,
     color: "#fff"
   },
 
   currinfo: {
     textAlign: "center",
-    fontSize: 15,
+    fontSize: 13,
     color: "#fff"
   }
 });
