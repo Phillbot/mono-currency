@@ -17,7 +17,7 @@ import Constants from "expo-constants";
 import { NetInfo } from "react-native";
 
 import { monoCurrencyFetch } from "../functions/fetches";
-import currencies from "../Dictionaries/currencies.json";
+import currencies from "../dictionaries/currencies.json";
 
 export default class Currency extends Component<any, any> {
   constructor(props: any) {
